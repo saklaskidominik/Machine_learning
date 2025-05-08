@@ -1,98 +1,79 @@
-Analiza danych środowiskowych ESA
+# 📊 Analiza danych środowiskowych ESA
 
-Spis treści
+## 📚 Spis treści
 
-Zapoznanie z biblioteką Seaborn
+1. [Zapoznanie z biblioteką Seaborn](#1-zapoznanie-z-biblioteką-seaborn)
+2. [Charakterystyka portalu Dane.gov.pl](#2-charakterystyka-portalu-danegovpl)
+3. [Wybór zestawu danych](#3-wybór-zestawu-danych)
+4. [Etapy pipeline’u ML](#4-etapy-pipelineu-ml)
+5. [Podsumowanie](#5-podsumowanie)
+6. [Licencja danych](#6-licencja-danych)
 
-Charakterystyka portalu Dane.gov.pl
+---
 
-Wybór zestawu danych
+## 1. Zapoznanie z biblioteką Seaborn
 
-Etapy pipeline’u ML
+**Seaborn** to wysokopoziomowa biblioteka do tworzenia statystycznych wizualizacji danych, oparta na **Matplotlib**.  
+Umożliwia szybkie tworzenie estetycznych wykresów i wspiera eksploracyjną analizę danych dzięki intuicyjnemu API.
 
-Podsumowanie
+---
 
-Licencja danych
+## 2. Charakterystyka portalu Dane.gov.pl
 
-1. Zapoznanie z biblioteką Seaborn
+**Dane.gov.pl** to centralne repozytorium danych publicznych w Polsce.  
+Dane udostępniane są m.in. przez **GUS**, **Ministerstwo Finansów**, **CEIDG** – w formatach CSV, XLS(X), JSON oraz przez API (REST, SOAP, GraphQL).
 
-Seaborn to wysokopoziomowa biblioteka do tworzenia statystycznych wizualizacji danych, oparta na Matplotlib. Umożliwia szybkie tworzenie wykresów i wspiera eksploracyjną analizę danych dzięki intuicyjnemu API.
+Zakres tematyczny obejmuje: **środowisko, transport, edukację, zdrowie, gospodarkę** i wiele innych.
 
-2. Charakterystyka portalu Dane.gov.pl
+---
 
-Portal Dane.gov.pl to centralne repozytorium danych publicznych w Polsce. Dane udostępniane są m.in. przez GUS, Ministerstwo Finansów czy CEIDG, w formatach CSV, XLS(X), JSON oraz poprzez API (REST, SOAP, GraphQL).
+## 3. Wybór zestawu danych
 
-Zbiory obejmują szeroki zakres tematyczny: środowisko, transport, edukacja, zdrowie, gospodarka itp.
+### 3.1 Opis zbioru
 
-3. Wybór zestawu danych
+Zbiór: **„Dane pomiarowe ESA (Edukacyjna Sieć Antysmogowa)”**  
+Dane środowiskowe rejestrowane przy placówkach edukacyjnych – z częstotliwością co 15 minut.
 
-3.1 Opis zbioru
+### 3.2 Powody wyboru
 
-„Dane pomiarowe ESA (Edukacyjna Sieć Antysmogowa)” zawierają środowiskowe dane pomiarowe rejestrowane przy szkołach i przedszkolach, aktualizowane co 15 minut.
+- Zmienność czasowo-przestrzenna
+- Znaczenie tematyki (zdrowie publiczne)
+- Możliwość zastosowania EDA + ML
 
-3.2 Powody wyboru
+---
 
-Duża częstotliwość pomiarów
+## 4. Etapy pipeline’u ML
 
-Zmienność przestrzenna i czasowa
+- Wczytanie i łączenie danych z 24 plików CSV (z dnia 28.04.2025)
+- Analiza braków danych i ich imputacja
+- Rozdzielenie znaczników czasu
+- Wizualizacja rozkładów i wartości odstających
+- Mapy i heatmapy
+- Budowa modelu predykcyjnego (np. regresja)
 
-Możliwość modelowania predykcyjnego
+---
 
-3.3 Znaczenie tematyki
+## 5. Podsumowanie
 
-Zanieczyszczenie powietrza ma kluczowe znaczenie dla zdrowia publicznego. Analiza tych danych może wspierać zarządzanie środowiskiem i edukację ekologiczną.
+- Projekt pokazuje zastosowanie **EDA** i **Feature Engineeringu** w analizie jakości powietrza
+- Wykorzystano: `pandas`, `seaborn`, `matplotlib`, `plotly`, `sklearn`
+- Kluczowa zmienna docelowa: **PM10_AVG**
+- Projekt może być podstawą dla **modeli predykcyjnych i systemów ostrzegania smogowego**
 
-4. Etapy pipeline’u ML
+---
 
-4.1 Wczytanie danych
+## 6. Licencja danych
 
-Wczytano 24 pliki CSV (każdy odpowiadający godzinie 28.04.2025), łącząc je w jeden zbiór (ok. 40 tys. rekordów).
+Dane wykorzystane w projekcie pochodzą z portalu **[dane.gov.pl](https://dane.gov.pl/)**  
+i zostały udostępnione na licencji:
 
-4.2 Analiza brakujących danych
+**[CC0 1.0 Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/legalcode.pl)**
 
-Najwięcej braków dotyczy kolumny STREET (>23%), nieliczne braki pojawiają się też w danych pogodowych. Przeprowadzono klasyfikację typów braków (MNAR, MAR).
+> Brak praw autorskich.  
+> Można swobodnie kopiować, zmieniać, rozpowszechniać i wykorzystywać dane, nawet w celach komercyjnych – bez pytania o zgodę.
 
-4.3 Typy danych i konwersje
+---
 
-Zmienna TIMESTAMP została rozbita na komponenty daty i godziny. Przypisano poprawne typy zmiennym (tekstowe vs numeryczne).
-
-4.4 Inżynieria cech i EDA
-
-Imputacja braków: średnia po mieście lub "nieznana ulica"
-
-Liczba unikalnych etykiet i analiza kardynalności
-
-Statystyki opisowe i rozkłady zmiennych (histogramy, boxploty)
-
-Macierz korelacji i analiza wzorców godzinowych (heatmapy, lineploty)
-
-Mapa stężeń PM10
-
-4.5 Wybór zmiennej docelowej
-
-PM10_AVG – istotna zmienna środowiskowa, z dużą zmiennością i wpływem na zdrowie publiczne.
-
-4.6 Wybór zmiennych wejściowych
-
-Pogodowe: TEMPERATURE_AVG, HUMIDITY_AVG, PRESSURE_AVG
-
-Geograficzne: LATITUDE, LONGITUDE
-
-Czasowe: HOUR
-
-Lokalizacyjne: CITY (po zakodowaniu)
-
-5. Podsumowanie
-
-Projekt umożliwia analizę przestrzenno-czasową jakości powietrza w Polsce z wykorzystaniem EDA i metod uczenia maszynowego. Przygotowane dane są bogate w cechy i wspierają tworzenie modeli predykcyjnych wspierających ochronę zdrowia.
-
-6. Licencja danych
-
-Zbiór danych „Dane pomiarowe ESA (Edukacyjna Sieć Antysmogowa)” pochodzi z portalu dane.gov.pl i udostępniany jest na licencji CC0 1.0 (public domain).
-
-„Brak praw autorskich. Możesz zwielokrotniać, zmieniać, rozpowszechniać i wykonywać utwór, nawet w celu komercyjnym – bez pytania o zgodę.”
-
-Link do licencji: https://creativecommons.org/publicdomain/zero/1.0/legalcode.pl
 
 🛠 Autor: Dominik Sakłaski📅 Data: 2025-05-08📘 Język: Python (Pandas, Seaborn, Plotly, Scikit-learn)
 
